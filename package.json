@@ -1,0 +1,21 @@
+{
+  "name": "notification-service",
+  "version": "1.0.0",
+  "description": "A service for sending notifications via email, SMS, and in-app channels",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2",
+    "mongoose": "^8.0.0",
+    "nodemailer": "^6.9.7",
+    "twilio": "^4.19.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
