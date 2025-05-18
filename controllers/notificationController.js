@@ -18,28 +18,26 @@ const sendNotification = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ error: "Failed to send notification", details: error });
+      .json({ error: "Failed", details: error });
   }
 };
 
 const getUserNotifications = async (req, res) => {
-  const { userId } = req.params;
-
-  if (!userId) {
-    return res.status(400).json({ error: "User ID is required" });
-  }
-
   try {
-    const notifications = await notificationService.getUserNotifications(
-      userId
-    );
+    const userId = req.params.userId; 
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+    const notifications = await notificationService.getUserNotifications(userId);
     res.status(200).json(notifications);
   } catch (error) {
+    console.error("Error", error); 
     res
       .status(500)
-      .json({ error: "Failed to retrieve notifications", details: error });
+      .json({ error: "Failed", details: error });
   }
 };
+
 
 module.exports = {
   sendNotification,

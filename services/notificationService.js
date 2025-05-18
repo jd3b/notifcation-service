@@ -17,9 +17,7 @@ const twilioClient = twilio(
 );
 const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
 
-/**
- * Sends an email notification.
- */
+
 const sendEmail = async (to, subject, text) => {
   const mailOptions = {
     from: nodemailerConfig.auth.user,
@@ -33,14 +31,12 @@ const sendEmail = async (to, subject, text) => {
     console.log("Email sent:", info.response);
     return { success: true, message: "Email sent successfully", info: info };
   } catch (error) {
-    console.error("Error sending email:", error);
-    return { success: false, message: "Failed to send email", error: error };
+    console.error("Error", error);
+    return { success: false, message: "Failed", error: error };
   }
 };
 
-/**
- * Sends an SMS notification.
- */
+
 const sendSMS = async (to, body) => {
   try {
     const message = await twilioClient.messages.create({
@@ -55,14 +51,12 @@ const sendSMS = async (to, body) => {
       sid: message.sid,
     };
   } catch (error) {
-    console.error("Error sending SMS:", error);
-    return { success: false, message: "Failed to send SMS", error: error };
+    console.error("Error", error);
+    return { success: false, message: "Failed", error: error };
   }
 };
 
-/**
- * Stores a notification in the database (using Mongoose).
- */
+
 const storeNotification = async (userId, type, message) => {
   try {
     const newNotification = new Notification({ userId, type, message });
@@ -70,29 +64,23 @@ const storeNotification = async (userId, type, message) => {
     console.log("Notification stored:", savedNotification);
     return savedNotification;
   } catch (error) {
-    console.error("Error storing notification:", error);
+    console.error("Error", error);
     throw error;
   }
 };
 
-/**
- * Retrieves notifications for a user from the database (using Mongoose).
- */
+
 const getUserNotifications = async (userId) => {
   try {
     const notifications = await Notification.find({ userId }).exec();
     console.log(`Notifications for user ${userId}:`, notifications);
     return notifications;
   } catch (error) {
-    console.error("Error retrieving notifications:", error);
+    console.error("Error", error);
     throw error;
   }
 };
 
-/**
- * Main function to handle sending notifications.  This function orchestrates
- * the sending of the notification and the storing of the notification data.
- */
 const sendNotification = async (type, recipient, message, userId) => {
   let result;
   try {
@@ -120,7 +108,7 @@ const sendNotification = async (type, recipient, message, userId) => {
       throw new Error(result.message);
     }
   } catch (error) {
-    console.error("Error in sendNotification service:", error);
+    console.error("Error", error);
     throw error;
   }
 };
